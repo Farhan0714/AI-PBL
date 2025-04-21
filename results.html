@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voting Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1e3c72);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            width: 100%;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1s ease forwards;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .results-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: background 0.3s ease;
+        }
+
+        .result-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .vote-count {
+            font-weight: bold;
+            color: #00cec9;
+        }
+
+        canvas {
+            margin: 20px auto 0;
+            max-width: 100%;
+        }
+
+        .btn-logout {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background: #d63031;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: #e17055;
+        }
+
+        @media (max-width: 480px) {
+            .result-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📊 Voting Results</h2>
+
+        <ul class="results-list">
+            {% for name, count in results %}
+                <li class="result-item">
+                    <strong>{{ name }}</strong>
+                    <span class="vote-count">{{ count }} votes</span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Pie Chart Canvas -->
+        <canvas id="resultsChart" height="300"></canvas>
+
+        <a href="/logout" class="btn-logout">🚪 Logout</a>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Pass results data to JavaScript -->
+    <script>
+        const labels = {{ results | map(attribute=0) | list | tojson }};
+        const data = {{ results | map(attribute=1) | list | tojson }};
+
+        const ctx = document.getElementById('resultsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Vote Count',
+                    data: data,
+                    backgroundColor: [
+                        '#007bff', '#28a745', '#ffc107', '#dc3545',
+                        '#6610f2', '#20c997', '#fd7e14', '#6f42c1'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#fff',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
