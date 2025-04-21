@@ -1,0 +1,210 @@
+/* Body with custom background image */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('/static/image.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.vote-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.vote-option {
+    position: relative;
+    padding-left: 35px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+    user-select: none;
+    color: #333;
+}
+
+.vote-option input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.custom-radio {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.vote-option:hover input ~ .custom-radio {
+    background-color: #ccc;
+}
+
+.vote-option input:checked ~ .custom-radio {
+    background-color: #007bff;
+}
+
+.custom-radio:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.vote-option input:checked ~ .custom-radio:after {
+    display: block;
+}
+
+.vote-option .custom-radio:after {
+    top: 5px;
+    left: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: white;
+}
+
+/* Stylish Vote Button */
+.vote-button {
+    background: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s;
+    font-size: 16px;
+}
+
+.vote-button:hover {
+    background: #218838;
+}
+
+/* Container with translucent overlay */
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Inputs and Buttons */
+input, select, button {
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Flash message */
+.flash {
+    color: #d32f2f;
+    background-color: #ffebee;
+    border: 1px solid #ffcdd2;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+/* Titles */
+h1, h2, h3 {
+    color: #222;
+    margin-bottom: 20px;
+}
+
+/* Vote options */
+.vote-option {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.vote-option input[type="radio"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+/* Result list */
+/* Voting results list */
+.results-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    background: #f9f9f9;
+    border-left: 6px solid #007bff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    font-size: 16px;
+}
+
+.vote-count {
+    color: #555;
+}
+
+/* Logout button */
+.btn-logout {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 10px 18px;
+    background: #dc3545;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-logout:hover {
+    background: #b02a37;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
